@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NMQ9X1LFQB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NMQ9X1LFQB');
+</script>
+	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>whowillwintoday| who will win today</title>
+	
+	 <!-- SEO Meta Tags -->
+    <meta name="description" content="Who Will Win Today - The ultimate game prediction platform. Make your predictions on sports games,and tournaments before they start. Coming soon!">
+    <meta name="keywords" content="who will win today, game predictions, sports predictions, match predictions, football predictions, basketball predictions, game winner prediction, sports analysis, match analysis">
+    <meta name="author" content="Who Will Win Today">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Who Will Win Today - Game Prediction Platform">
+    <meta property="og:description" content="Make your predictions on game winners before matches start. Join our community of sports enthusiasts and prediction experts.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://whowillwintoday.com">
+    <meta property="og:site_name" content="Who Will Win Today">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Who Will Win Today - Game Prediction Platform">
+    <meta name="twitter:description" content="Make your predictions on game winners before matches start. Coming soon!">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://whowillwintoday.com">
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Will Win Today? - Sports Match Predictions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .nav-gradient {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        
+        .match-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading-spinner {
+            border-top-color: #1e40af;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-banner {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="nav-gradient text-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <img src="https://placehold.co/40x40" alt="Trophy logo with blue and silver colors" class="h-10 w-10 rounded-full">
+                <h1 class="text-xl font-bold">WhoWillWinToday</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-blue-200 font-medium">Home</a>
+                <a href="#" class="hover:text-blue-200">Cricket</a>
+                <a href="#" class="hover:text-blue-200">Football</a>
+                <a href="#" class="hover:text-blue-200">Tennis</a>
+                <a href="#" class="hover:text-blue-200">About</a>
+            </div>
+            <button class="md:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Error Banner (hidden by default) -->
+    <div id="errorBanner" class="error-banner hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6">
+        <div class="container mx-auto flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p id="errorMessage">Error loading match data. Please try again later.</p>
+            <button onclick="hideError()" class="ml-auto text-red-700 hover:text-red-900 font-bold">&times;</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Today's Match Predictions</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Get expert analysis and crowd predictions for today's biggest sports matches across cricket, football, and more.
+            </p>
+        </section>
+
+        <!-- Loading State -->
+        <div id="loading" class="flex justify-center items-center py-12">
+            <div class="loading-spinner h-12 w-12 border-4 border-gray-300 rounded-full"></div>
+        </div>
+
+        <!-- Match Predictions Grid -->
+        <div id="matchesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
+            <!-- Sample Match Card 1 -->
+            <div class="match-card bg-white rounded-lg overflow-hidden">
+                <div class="p-4 border-b border-gray-200 bg-blue-50">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-blue-800">ICC T20 World Cup</span>
+                        <span class="text-xs text-gray-500">Today, 19:30 IST</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40" alt="India cricket team logo with blue and orange colors" class="h-10 w-10">
+                            <span class="font-medium">India</span>
+                        </div>
+                        <span class="text-gray-500 font-medium">vs</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-medium">Australia</span>
+                            <img src="https://placehold.co/40x40" alt="Australia cricket team logo with green and gold colors" class="h-10 w-10">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>India Win Probability</span>
+                            <span class="font-medium">62%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 62%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Australia Win Probability</span>
+                            <span class="font-medium">38%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 38%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition duration-200">
+                        View Full Prediction
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Match Card 2 -->
+            <div class="match-card bg-white rounded-lg overflow-hidden">
+                <div class="p-4 border-b border-gray-200 bg-green-50">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-green-800">English Premier League</span>
+                        <span class="text-xs text-gray-500">Today, 22:00 GMT</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40" alt="Manchester United football club logo with red devil emblem" class="h-10 w-10">
+                            <span class="font-medium">Man Utd</span>
+                        </div>
+                        <span class="text-gray-500 font-medium">vs</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-medium">Liverpool</span>
+                            <img src="https://placehold.co/40x40" alt="Liverpool football club logo with liver bird emblem" class="h-10 w-10">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Man Utd Win Probability</span>
+                            <span class="font-medium">45%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-red-600 h-2.5 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Liverpool Win Probability</span>
+                            <span class="font-medium">55%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 55%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                    <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition duration-200">
+                        View Full Prediction
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Match Card 3 -->
+            <div class="match-card bg-white rounded-lg overflow-hidden">
+                <div class="p-4 border-b border-gray-200 bg-purple-50">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-purple-800">US Open Tennis</span>
+                        <span class="text-xs text-gray-500">Today, 15:00 EST</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40" alt="Tennis player silhouette with racket in action pose" class="h-10 w-10">
+                            <span class="font-medium">Djokovic</span>
+                        </div>
+                        <span class="text-gray-500 font-medium">vs</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-medium">Nadal</span>
+                            <img src="https://placehold.co/40x40" alt="Tennis player celebrating victory with raised fists" class="h-10 w-10">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Djokovic Win Probability</span>
+                            <span class="font-medium">58%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 58%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span>Nadal Win Probability</span>
+                            <span class="font-medium">42%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-orange-500 h-2.5 rounded-full" style="width: 42%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                    <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded transition duration-200">
+                        View Full Prediction
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Expert Analysis</h3>
+            <div class="flex items-start space-x-4">
+                <img src="https://placehold.co/80x80" alt="Portrait of sports analyst wearing headset and holding clipboard" class="h-20 w-20 rounded-full">
+                <div>
+                    <h4 class="font-bold text-blue-600">John Smith, Sports Analyst</h4>
+                    <p class="text-gray-600 mt-1">
+                        "India has shown consistent performance in the T20 format with their strong batting lineup. 
+                        However, Australia's aggressive bowling attack could turn the game in their favor if they take early wickets."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Predictions Section -->
+        <section class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Community Predictions</h3>
+                <button class="text-sm text-blue-600 hover:text-blue-800 font-medium">Add Your Prediction</button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-start space-x-3">
+                    <img src="https://placehold.co/40x40" alt="User avatar with blue background" class="h-10 w-10 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-medium">CricketFan99</span>
+                            <span class="text-xs text-gray-500">2 hours ago</span>
+                        </div>
+                        <p class="text-gray-700 mt-1">India will win by 20+ runs. Their top order is in great form!</p>
+                        <div class="flex space-x-4 text-sm text-gray-500 mt-1">
+                            <button class="hover:text-blue-600">Like (42)</button>
+                            <button class="hover:text-blue-600">Reply</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-3">
+                    <img src="https://placehold.co/40x40" alt="User avatar with green background" class="h-10 w-10 rounded-full">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-medium">AussieSupporter</span>
+                            <span class="text-xs text-gray-500">1 hour ago</span>
+                        </div>
+                        <p class="text-gray-700 mt-1">Australia has better death bowling. If they bat first, I predict a 15-run win.</p>
+                        <div class="flex space-x-4 text-sm text-gray-500 mt-1">
+                            <button class="hover:text-blue-600">Like (28)</button>
+                            <button class="hover:text-blue-600">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-bold mb-4">WhoWillWinToday</h4>
+                    <p class="text-gray-400">
+                        Providing reliable sports match predictions and analysis since 2020.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Sports</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cricket</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Football</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Tennis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Basketball</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Subscribe</h4>
+                    <p class="text-gray-400 mb-2">Get daily predictions in your inbox</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-3 py-2 rounded-l text-gray-800 w-full">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2024 WhoWillWinToday. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simulate loading data
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('matchesContainer').classList.remove('hidden');
+            }, 1500);
+            
+            // Simulate error for demo purposes (remove in production)
+            setTimeout(function() {
+                // showError("Could not connect to prediction server. Showing cached data.");
+            }, 800);
+        });
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorBanner').classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorBanner').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
